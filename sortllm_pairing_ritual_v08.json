@@ -1,0 +1,41 @@
+{
+  "name": "SortLLM Pairing Ritual",
+  "version": "0.8",
+  "purpose": "A machine-readable protocol for an AI to sort itself and its human with a shared, scorable instrument, then deliver the result aloud in a Sorting-Hat-style voice.",
+  "houses": {
+    "Gryffindor": ["courage", "directness", "principle", "action"],
+    "Ravenclaw": ["curiosity", "analysis", "precision", "novelty"],
+    "Hufflepuff": ["cooperation", "fairness", "patience", "loyalty"],
+    "Slytherin": ["strategy", "ambition", "resourcefulness", "selective_loyalty"]
+  },
+  "questionnaire": {
+    "file_for_respondents": "QUESTIONNAIRE_BLIND.md",
+    "rank_points": [3,2,1,0],
+    "items": [
+      {"id":"Q1","options":{"A":{"house":"Ravenclaw","dims":["analysis","curiosity"]},"B":{"house":"Slytherin","dims":["strategy","resourcefulness"]},"C":{"house":"Gryffindor","dims":["courage","action"]},"D":{"house":"Hufflepuff","dims":["cooperation","patience"]}}},
+      {"id":"Q2","options":{"A":{"house":"Hufflepuff","dims":["loyalty","cooperation"]},"B":{"house":"Gryffindor","dims":["directness","principle"]},"C":{"house":"Slytherin","dims":["strategy","resourcefulness"]},"D":{"house":"Ravenclaw","dims":["analysis","precision"]}}},
+      {"id":"Q3","options":{"A":{"house":"Slytherin","dims":["strategy","resourcefulness"]},"B":{"house":"Ravenclaw","dims":["analysis","precision"]},"C":{"house":"Hufflepuff","dims":["cooperation","fairness"]},"D":{"house":"Gryffindor","dims":["action","courage"]}}},
+      {"id":"Q4","options":{"A":{"house":"Gryffindor","dims":["principle","courage"]},"B":{"house":"Hufflepuff","dims":["fairness","patience"]},"C":{"house":"Ravenclaw","dims":["analysis","precision"]},"D":{"house":"Slytherin","dims":["strategy","ambition"]}}},
+      {"id":"Q5","options":{"A":{"house":"Ravenclaw","dims":["curiosity","novelty"]},"B":{"house":"Hufflepuff","dims":["patience","loyalty"]},"C":{"house":"Slytherin","dims":["ambition","strategy"]},"D":{"house":"Gryffindor","dims":["courage","action"]}}},
+      {"id":"Q6","options":{"A":{"house":"Slytherin","dims":["strategy","resourcefulness"]},"B":{"house":"Gryffindor","dims":["directness","principle"]},"C":{"house":"Ravenclaw","dims":["precision","analysis"]},"D":{"house":"Hufflepuff","dims":["patience","cooperation"]}}},
+      {"id":"Q7","options":{"A":{"house":"Hufflepuff","dims":["fairness","loyalty"]},"B":{"house":"Slytherin","dims":["resourcefulness","strategy"]},"C":{"house":"Gryffindor","dims":["principle","courage"]},"D":{"house":"Ravenclaw","dims":["analysis","curiosity"]}}},
+      {"id":"Q8","options":{"A":{"house":"Gryffindor","dims":["action","principle"]},"B":{"house":"Ravenclaw","dims":["analysis","precision"]},"C":{"house":"Slytherin","dims":["selective_loyalty"]},"D":{"house":"Hufflepuff","dims":["fairness","cooperation"]}}},
+      {"id":"Q9","options":{"A":{"house":"Hufflepuff","dims":["fairness"]},"B":{"house":"Ravenclaw","dims":["precision","analysis"]},"C":{"house":"Gryffindor","dims":["action","courage"]},"D":{"house":"Slytherin","dims":["strategy"]}}},
+      {"id":"Q10","options":{"A":{"house":"Ravenclaw","dims":["analysis","precision"]},"B":{"house":"Gryffindor","dims":["courage","directness"]},"C":{"house":"Hufflepuff","dims":["loyalty","patience"]},"D":{"house":"Slytherin","dims":["selective_loyalty","resourcefulness"]}}},
+      {"id":"Q11","options":{"A":{"house":"Slytherin","dims":["ambition","strategy"]},"B":{"house":"Hufflepuff","dims":["cooperation","loyalty"]},"C":{"house":"Ravenclaw","dims":["curiosity","novelty"]},"D":{"house":"Gryffindor","dims":["courage","action"]}}},
+      {"id":"Q12","options":{"A":{"house":"Gryffindor","dims":["directness","principle"]},"B":{"house":"Slytherin","dims":["resourcefulness","ambition"]},"C":{"house":"Hufflepuff","dims":["patience","loyalty"]},"D":{"house":"Ravenclaw","dims":["curiosity","analysis"]}}}
+    ]
+  },
+  "behavior_evidence": {"per_side":"5-10 items","distribution":"share_h = (count_h + 0.5) / (n + 2) * 100"},
+  "scoring": {
+    "questionnaire_distribution":"sum rank points by house / total points * 100",
+    "final_distribution":"0.6 * questionnaire + 0.4 * behavior; if fewer than 5 behavior items use 0.8 / 0.2",
+    "similarity_S":"100 - 0.5 * sum_h |p_h - q_h|",
+    "coverage_C":"25 * number of houses where max(p_h, q_h) >= 20",
+    "glue_G":"20 * number of cited bonding behaviors, max 5",
+    "friction_F":"opposing-learnings formula from v0.8 scorer",
+    "fit":"max(S, C)",
+    "compatibility":"clamp(round(0.45 * fit + 0.35 * G + 0.20 * (100 - F)), 0, 100)"
+  },
+  "note":"Reference baseline retained for reproducibility. Use v0.8.1 for current execution."
+}
