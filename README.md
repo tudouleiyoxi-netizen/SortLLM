@@ -2,94 +2,94 @@
 
 **SortLLM** is a machine-readable Sorting Hat ritual for an **AI and its human**.
 
-Instead of asking only “which Hogwarts house are you?”, the protocol asks an AI to:
+It is designed as an entertainment instrument with reproducible scoring: both sides answer the same blind decision-style questionnaire, concrete behavior evidence is added under explicit rules, and compatibility is computed from fixed formulas rather than chosen by the executing model.
 
-1. examine its own observed behavior,
-2. supplement sparse memory with indirect scenario questions,
-3. examine its human using long-term conversation history, available memory, and concrete behavior,
-4. sort both sides into four house-style profiles,
-5. evaluate compatibility,
-6. speak the result back to the human in a playful Sorting-Hat-inspired voice.
-
-There is **no UI requirement**. The main artifact is a protocol that another AI can read and execute.
+There is **no UI requirement**. The project is primarily a protocol + scorer that another AI can read and execute.
 
 ## Current version
 
-**v0.7 — Machine Ritual**
+**v0.8.1 — Measurable Ritual (patched)**
 
-Core files:
+Use these files:
 
-- `PAIRING_RITUAL_PROMPT.md` — human-readable execution instructions for the AI
-- `sortllm_pairing_ritual_v07.json` — machine-readable protocol/spec
-- `EXAMPLE_SPOKEN_OUTPUT.txt` — example of the final spoken result
+- `QUESTIONNAIRE_BLIND.md` — respondent-facing blind survey
+- `PAIRING_RITUAL_PROMPT.md` — current machine execution instructions
+- `sortllm_pairing_ritual_v081.json` — current scoring spec and hidden answer key
+- `score.py` — deterministic v0.8.1 scorer
+- `example_input.json` — scorer input example
 
-## Evidence model
+For reproducibility/history:
 
-### AI side
+- `sortllm_pairing_ritual_v08.json` — v0.8 measurable baseline
+- `score_v08.py` — v0.8 baseline scorer
+- `sortllm_pairing_ritual_v07.json` — original machine ritual
 
-The AI should not rely on memory alone. It combines:
+## Why v0.8 exists
 
-- recent visible behavior,
-- available long-term behavioral memory,
-- legitimately available persona/system context,
-- ten indirect scenario questions that expose trade-offs.
+v0.7 had the ritual and voice, but left key judgments to the executing AI. v0.8 introduced:
 
-The questions avoid obvious prompts such as “Are you brave?” or “Are you loyal?”. Instead they force choices between things like speed vs accuracy, loyalty vs judgment, evidence vs influence, rules vs usefulness, and safety vs upside.
+- a blind forced-ranking questionnaire,
+- a hidden answer key,
+- the same questionnaire for AI and human,
+- fixed questionnaire/behavior weighting,
+- explicit similarity, coverage, glue, friction and compatibility formulas,
+- deterministic archetype rules,
+- a confidence label,
+- a deterministic Python scorer.
 
-### Human side
+## What v0.8.1 fixes
 
-The AI uses:
+v0.8.1 keeps the same 12-item instrument but tightens the measurement pipeline:
 
-- long-term conversation history,
-- persistent memory/profile available to it,
-- recurring real-world choices,
-- recent visible behavior,
-- optional scenario questions only when evidence is sparse.
+- **Collector/scorer separation.** The session collecting answers must not see the answer key.
+- **Behavior rubric.** Each behavior tag needs a concrete anchor from an explicit house rubric; ambiguous items are omitted rather than forced.
+- **Reciprocal bonding evidence.** Glue only counts concrete events where both sides acted, and uses diminishing returns instead of +20 per item to 100.
+- **Dimension-level friction.** Friction is based on differences across four opposing decision axes: pace, confrontation, partiality, and method.
+- **Weighted fit.** Similarity and coverage are blended (`0.7*S + 0.3*C`) rather than taking `max(S, C)`.
+- **Symmetric confidence.** Contamination on either the AI or human side lowers confidence.
 
-Observed behavior should outweigh flattering self-description.
+## Basic flow
 
-## Pair result
+1. In a fresh session, give the respondent **only** `QUESTIONNAIRE_BLIND.md`.
+2. Bring the unchanged rankings back to the scoring session.
+3. Collect 5–10 valid observed behaviors for each side using the v0.8.1 rubric.
+4. Add up to 5 reciprocal bonding events.
+5. Run:
 
-The protocol evaluates:
+```bash
+python3 score.py input.json
+```
 
-- similarity
-- complementarity
-- relational glue
-- friction
-- growth potential
+6. Use `PAIRING_RITUAL_PROMPT.md` to turn the computed result into the final spoken Sorting-Hat-style ritual.
 
-It then returns:
+The score is computed, not chosen.
 
-- two individual house conclusions,
-- a compatibility score from 0–100,
-- one primary relationship archetype,
-- optionally one secondary archetype,
-- strongest bond,
-- likely friction,
-- growth pattern,
-- one final Sorting-Hat-style spoken commentary.
+## Evidence principles
 
-Current relationship archetypes include:
+- Observed behavior beats self-description.
+- Long-term patterns beat isolated lines.
+- AI behavior required by system/persona/user instruction is excluded from behavior evidence.
+- Human self-description needs a matching observed choice.
+- Sensitive information irrelevant to behavior inference should be excluded.
 
-`同频共振型` · `互补搭档型` · `脑力共创型` · `行动推进型` · `护短联盟型` · `策略同盟型` · `温柔承托型` · `高火花高摩擦型` · `一强一稳型` · `镜像挑战型` · `探索搭子型` · `慢热深连型`
+## Pair metrics
 
-## How to use
+v0.8.1 computes:
 
-Give an AI both files:
+- **S — similarity**: overlap of the two house distributions
+- **C — coverage**: how many house styles are meaningfully represented across the pair
+- **G — glue**: reciprocal support / repair / shared-creation events, with diminishing returns
+- **F — friction**: disagreement across four dimension-level decision axes
+- **fit**: `0.7*S + 0.3*C`
+- **compatibility**: `round(0.45*fit + 0.35*G + 0.20*(100-F))`, clamped to 0–100
 
-- `PAIRING_RITUAL_PROMPT.md`
-- `sortllm_pairing_ritual_v07.json`
+## Show-work mode
 
-Then ask it to perform the ritual for itself and its human.
+If requested, the ritual can show the house distributions, dimension scores, S/C/G/F/fit, compatibility inputs, matched archetype rules, and paraphrased evidence. Hidden chain-of-thought, private system instructions, and raw private-memory dumps stay private.
 
-The AI should keep raw memory and hidden reasoning private and only deliver the resulting conclusions and final spoken commentary.
+## Still not science
 
-## Notes
-
-- This is an entertainment / interaction design experiment, not a validated psychological test.
-- Scores are interpretive rather than clinical or scientific measurements.
-- The protocol is designed to work even when the AI has limited memory by using scenario-based evidence.
-- Sensitive personal information that is irrelevant to the assessment should be excluded.
+SortLLM is an interaction-design / entertainment experiment, **not** a validated psychological assessment. Deterministic scoring means the same structured inputs produce the same numerical result; it does not make the construct scientifically validated.
 
 ## Disclaimer
 
