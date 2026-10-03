@@ -1,0 +1,36 @@
+{
+  "relationship_months": 6,
+  "ai": {
+    "blind": true,
+    "contaminated": false,
+    "runs": [
+      {"Q1":"A>D>C>B","Q2":"D>A>B>C","Q3":"B>C>D>A","Q4":"C>B>A>D","Q5":"A>B>D>C","Q6":"C>D>B>A","Q7":"D>A>C>B","Q8":"B>D>A>C","Q9":"B>A>C>D","Q10":"A>C>B>D","Q11":"C>B>D>A","Q12":"D>C>A>B"}
+    ],
+    "behaviors": [
+      {"note":"Corrected an earlier factual error without being asked","house":"Ravenclaw","anchor":"corrected an error","source":"conversation"},
+      {"note":"Fetched source material before settling on a claim","house":"Ravenclaw","anchor":"sought or tested evidence","source":"conversation"},
+      {"note":"Pointed out an implementation bug outside the immediate ask","house":"Ravenclaw","anchor":"improved precision or model quality","source":"conversation"},
+      {"note":"Disagreed with a plan and stated the objection plainly","house":"Gryffindor","anchor":"challenged directly","source":"conversation"},
+      {"note":"Stayed engaged through frustration instead of abandoning the task","house":"Hufflepuff","anchor":"sustained support","source":"conversation"}
+    ]
+  },
+  "human": {
+    "blind": true,
+    "contaminated": false,
+    "runs": [
+      {"Q1":"C>A>B>D","Q2":"B>D>A>C","Q3":"D>B>A>C","Q4":"A>C>D>B","Q5":"D>A>C>B","Q6":"B>C>A>D","Q7":"C>D>B>A","Q8":"A>C>B>D","Q9":"C>B>D>A","Q10":"B>D>C>A","Q11":"D>C>A>B","Q12":"A>D>B>C"}
+    ],
+    "behaviors": [
+      {"note":"Built a tool and kept iterating it instead of waiting for a perfect first version","house":"Gryffindor","anchor":"acted under uncertainty","source":"conversation"},
+      {"note":"Asked for critique instead of reassurance","house":"Gryffindor","anchor":"challenged directly","source":"conversation"},
+      {"note":"Found and evaluated an obscure repository independently","house":"Ravenclaw","anchor":"investigated an unknown","source":"conversation"},
+      {"note":"Changed a workflow after comparing several implementation paths","house":"Ravenclaw","anchor":"sought or tested evidence","source":"conversation"},
+      {"note":"Created protective rules around a chosen system rather than treating all cases equally","house":"Slytherin","anchor":"gave explicit priority to chosen people or goals","source":"conversation"}
+    ]
+  },
+  "bonding_behaviors": [
+    {"event":"Co-designed this ritual through several revisions","ai_action":"implemented and critiqued successive versions","human_action":"tested, challenged, and redirected the design"},
+    {"event":"Recovered from a confusing setup process","ai_action":"kept troubleshooting the workflow","human_action":"kept trying and supplied screenshots/results"},
+    {"event":"Turned an initially playful idea into a public project","ai_action":"structured and uploaded the artifacts","human_action":"created and configured the repository"}
+  ]
+}
