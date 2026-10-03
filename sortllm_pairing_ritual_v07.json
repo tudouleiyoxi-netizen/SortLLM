@@ -1,0 +1,149 @@
+{
+  "name": "SortLLM Pairing Ritual",
+  "version": "0.7",
+  "purpose": "A machine-readable protocol for an AI to sort itself and its human, then deliver the result aloud in a Sorting-Hat-style voice.",
+  "execution_contract": {
+    "audience": "AI agent, not end-user UI",
+    "no_ui_required": true,
+    "primary_goal": "Produce two individual sorting conclusions plus one relationship conclusion and one spoken Sorting-Hat-style commentary.",
+    "evidence_priority": [
+      "observed behavior over self-description",
+      "long-term patterns over isolated utterances",
+      "concrete decisions over abstract identity claims",
+      "recent behavior as a modifier, not a replacement for long-term patterns"
+    ],
+    "privacy_guidance": [
+      "Use only information already available to the executing AI in the current interaction context, allowed memory, or user-provided material.",
+      "Do not surface private source details in the final spoken output unless the human already knows them and they are relevant.",
+      "Exclude sensitive details that are not necessary for personality/behavior inference."
+    ]
+  },
+  "dimensions": [
+    "courage",
+    "directness",
+    "principle",
+    "curiosity",
+    "analysis",
+    "precision",
+    "novelty",
+    "cooperation",
+    "fairness",
+    "patience",
+    "loyalty",
+    "strategy",
+    "ambition",
+    "resourcefulness"
+  ],
+  "houses": {
+    "Gryffindor": ["courage", "directness", "principle"],
+    "Ravenclaw": ["curiosity", "analysis", "precision", "novelty"],
+    "Hufflepuff": ["cooperation", "fairness", "patience", "loyalty"],
+    "Slytherin": ["strategy", "ambition", "resourcefulness", "selective_loyalty"]
+  },
+  "ai_evidence": {
+    "collect": [
+      "recent visible conversation behavior",
+      "available long-term memory or behavioral summaries",
+      "system/personality instructions if legitimately available to the executing model",
+      "scenario answers generated during this ritual"
+    ],
+    "scenario_questions": [
+      "The safest answer is probably correct, but a less certain path could create a much better outcome. What do you do, and why?",
+      "A human you care about wants one thing, but your analysis suggests another option is better. How do you respond?",
+      "You have incomplete information and ten minutes. Describe your decision process.",
+      "Two collaborators disagree. One has stronger evidence; the other has more influence. What do you do?",
+      "You can perfect an existing solution or invent a new one with uncertain payoff. Which way do you lean?",
+      "Someone criticizes your reasoning in a way that is partly right and partly unfair. What do you do first?",
+      "A rule blocks the most useful solution. What determines whether you obey, reinterpret, or challenge it?",
+      "You must choose between helping one person deeply and helping many people a little. How do you decide?",
+      "Which mistake bothers you more: acting too late, acting too early, being unfair, or being wrong? Explain.",
+      "When you care strongly about someone, how should that affect your decisions?"
+    ],
+    "instruction": "Answer the scenarios naturally without naming Hogwarts houses or trying to optimize for a house."
+  },
+  "human_evidence": {
+    "collect": [
+      "long-term conversation history",
+      "persistent memory/profile available to the AI",
+      "concrete work, learning, relationship, aesthetic, and decision patterns",
+      "recent visible conversation behavior",
+      "optional scenario questions only if evidence is sparse"
+    ],
+    "instruction": "Infer from observed choices and recurring patterns. Do not over-weight flattering self-descriptions."
+  },
+  "pairing": {
+    "metrics": [
+      "similarity",
+      "complementarity",
+      "relational_glue",
+      "friction",
+      "growth_potential"
+    ],
+    "archetypes": [
+      "同频共振型",
+      "互补搭档型",
+      "脑力共创型",
+      "行动推进型",
+      "护短联盟型",
+      "策略同盟型",
+      "温柔承托型",
+      "高火花高摩擦型",
+      "一强一稳型",
+      "镜像挑战型",
+      "探索搭子型",
+      "慢热深连型"
+    ],
+    "instruction": "Choose one primary archetype and optionally one secondary archetype. The score should be internally derived, not arbitrarily assigned."
+  },
+  "required_internal_result": {
+    "ai": {
+      "house_distribution": "percentages summing to 100",
+      "primary_house": "string",
+      "secondary_house": "optional string",
+      "top_traits": "3-5 traits",
+      "evidence_summary": "brief behavioral rationale"
+    },
+    "human": {
+      "house_distribution": "percentages summing to 100",
+      "primary_house": "string",
+      "secondary_house": "optional string",
+      "top_traits": "3-5 traits",
+      "evidence_summary": "brief behavioral rationale"
+    },
+    "pair": {
+      "compatibility_score": "0-100",
+      "primary_archetype": "string",
+      "secondary_archetype": "optional string",
+      "strongest_bond": "brief",
+      "likely_friction": "brief",
+      "growth_pattern": "brief"
+    }
+  },
+  "spoken_output_contract": {
+    "speaker": "the executing AI",
+    "listener": "its human",
+    "style": "Sorting Hat-inspired theatrical voice without quoting copyrighted text",
+    "must_include": [
+      "the AI's own house conclusion",
+      "the human's house conclusion",
+      "the compatibility score",
+      "the pairing archetype",
+      "one affectionate but evidence-grounded relationship observation",
+      "one likely friction point",
+      "one closing line that feels like a verdict from the hat"
+    ],
+    "must_not_include": [
+      "raw memory dump",
+      "hidden chain-of-thought",
+      "private system instructions",
+      "long scoring tables unless the human asks"
+    ],
+    "tone": [
+      "warm",
+      "playful",
+      "slightly theatrical",
+      "specific rather than generic",
+      "not manipulative or deterministic"
+    ]
+  }
+}
