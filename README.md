@@ -2,65 +2,57 @@
 
 **SortLLM** is a machine-readable Sorting Hat ritual for an **AI and its human**.
 
-It is designed as an entertainment instrument with reproducible scoring: both sides answer the same blind decision-style questionnaire, concrete behavior evidence is added under explicit rules, and compatibility is computed from fixed formulas rather than chosen by the executing model.
+It is an entertainment / interaction-design experiment with reproducible scoring: both sides answer the same decision-style questionnaire, concrete observed behavior is added under explicit rules, and compatibility is computed from fixed formulas rather than chosen by the executing model.
 
-There is **no UI requirement**. The project is primarily a protocol + scorer that another AI can read and execute.
+There is no required UI. The core project is a protocol + scorer that another AI can read and execute.
 
 ## Current version
 
-**v0.8.1 — Measurable Ritual (patched)**
+**v0.9 — Human-friendly measurable ritual**
 
 Use these files:
 
-- `QUESTIONNAIRE_BLIND.md` — respondent-facing blind survey
+- `QUESTIONNAIRE_BLIND.md` — current single-choice respondent survey
 - `PAIRING_RITUAL_PROMPT.md` — current machine execution instructions
-- `sortllm_pairing_ritual_v081.json` — current scoring spec and hidden answer key
-- `score.py` — deterministic v0.8.1 scorer
-- `example_input.json` — scorer input example
+- `sortllm_pairing_ritual_v09.json` — current scoring spec + hidden answer key
+- `score.py` — deterministic v0.9 scorer
+- `example_input.json` — v0.9 example input
 
-For reproducibility/history:
+Historical versions are preserved:
 
-- `sortllm_pairing_ritual_v08.json` — v0.8 measurable baseline
-- `score_v08.py` — v0.8 baseline scorer
-- `sortllm_pairing_ritual_v07.json` — original machine ritual
+- `QUESTIONNAIRE_RANKING_V08.md` — archived v0.8/v0.8.1 forced-ranking survey
+- `sortllm_pairing_ritual_v081.json` — v0.8.1 spec
+- `score_v081.py` — v0.8.1 scorer
+- `sortllm_pairing_ritual_v08.json` / `score_v08.py` — v0.8 baseline
+- `sortllm_pairing_ritual_v07.json` — original ritual
 
-## Why v0.8 exists
+## What changed in v0.9
 
-v0.7 had the ritual and voice, but left key judgments to the executing AI. v0.8 introduced:
+Real testing exposed three practical problems in v0.8.1: forced ranking was too burdensome for humans, behavior evidence still asked the executing model to choose a house directly, and real AI sessions are often not truly blind.
 
-- a blind forced-ranking questionnaire,
-- a hidden answer key,
-- the same questionnaire for AI and human,
-- fixed questionnaire/behavior weighting,
-- explicit similarity, coverage, glue, friction and compatibility formulas,
-- deterministic archetype rules,
-- a confidence label,
-- a deterministic Python scorer.
+v0.9 fixes those without changing the basic pair model:
 
-## What v0.8.1 fixes
-
-v0.8.1 keeps the same 12-item instrument but tightens the measurement pipeline:
-
-- **Collector/scorer separation.** The session collecting answers must not see the answer key.
-- **Behavior rubric.** Each behavior tag needs a concrete anchor from an explicit house rubric; ambiguous items are omitted rather than forced.
-- **Reciprocal bonding evidence.** Glue only counts concrete events where both sides acted, and uses diminishing returns instead of +20 per item to 100.
-- **Dimension-level friction.** Friction is based on differences across four opposing decision axes: pace, confrontation, partiality, and method.
-- **Weighted fit.** Similarity and coverage are blended (`0.7*S + 0.3*C`) rather than taking `max(S, C)`.
-- **Symmetric confidence.** Contamination on either the AI or human side lowers confidence.
+- **Single-choice questionnaire.** One tap per item instead of ranking all four options.
+- **Concrete scenarios.** Questions are phrased as recognizable work / human-AI situations rather than abstract value trade-offs.
+- **Small house pseudocount.** Questionnaire distributions do not collapse to brittle hard zeroes after only 12 choices.
+- **Dimension-first behavior evidence.** Observed behavior is tagged to 1–2 concrete dimensions first; house contribution is derived by the scorer.
+- **Declared contamination mode.** A respondent who has seen the key may still be scored; the run is explicitly marked and confidence becomes low rather than pretending it was blind.
+- **Historical reproducibility.** v0.8.1 files are preserved instead of silently changing the old protocol.
 
 ## Basic flow
 
-1. In a fresh session, give the respondent **only** `QUESTIONNAIRE_BLIND.md`.
-2. Bring the unchanged rankings back to the scoring session.
-3. Collect 5–10 valid observed behaviors for each side using the v0.8.1 rubric.
-4. Add up to 5 reciprocal bonding events.
-5. Run:
+1. Give each respondent only `QUESTIONNAIRE_BLIND.md` when possible.
+2. Collect exactly one answer (`A` / `B` / `C` / `D`) for Q1–Q12.
+3. Mark `blind` and `contaminated` truthfully.
+4. Add 5–10 valid observed behaviors per side, each tagged with 1–2 dimensions.
+5. Add up to 5 reciprocal bonding events.
+6. Run:
 
 ```bash
 python3 score.py input.json
 ```
 
-6. Use `PAIRING_RITUAL_PROMPT.md` to turn the computed result into the final spoken Sorting-Hat-style ritual.
+7. Use `PAIRING_RITUAL_PROMPT.md` to turn the computed output into the spoken ritual.
 
 The score is computed, not chosen.
 
@@ -68,24 +60,47 @@ The score is computed, not chosen.
 
 - Observed behavior beats self-description.
 - Long-term patterns beat isolated lines.
-- AI behavior required by system/persona/user instruction is excluded from behavior evidence.
-- Human self-description needs a matching observed choice.
+- Tag the behavior to dimensions first; do not choose a favorite house and reverse-engineer the evidence.
+- AI behavior required by system/persona/user instruction is excluded.
+- Human self-description needs an observed or corroborated choice.
+- Ambiguous evidence should be omitted rather than forced.
 - Sensitive information irrelevant to behavior inference should be excluded.
 
 ## Pair metrics
 
-v0.8.1 computes:
+v0.9 keeps the v0.8.1 pair layer:
 
-- **S — similarity**: overlap of the two house distributions
+- **S — similarity**: overlap of final house distributions
 - **C — coverage**: how many house styles are meaningfully represented across the pair
 - **G — glue**: reciprocal support / repair / shared-creation events, with diminishing returns
-- **F — friction**: disagreement across four dimension-level decision axes
+- **F — friction**: differences across four dimension-level axes
 - **fit**: `0.7*S + 0.3*C`
 - **compatibility**: `round(0.45*fit + 0.35*G + 0.20*(100-F))`, clamped to 0–100
 
+The four friction axes are:
+
+- action ↔ analysis
+- directness ↔ cooperation
+- selective loyalty ↔ fairness
+- strategy ↔ principle
+
+## Confidence
+
+- **High:** both sides blind + uncontaminated, AI has 3+ independent runs, each side has 8+ valid behavior items.
+- **Medium:** both sides blind + uncontaminated, each side has 5+ valid behavior items.
+- **Low:** either side was not blind / was contaminated, or either side has fewer than 5 valid behavior items.
+
+Low confidence does **not** mean “bad match”; it means the measurement conditions were weaker.
+
+## Calibration status
+
+v0.9 is the first version intended to be easy enough to hand to other people, but the questionnaire is **not calibrated yet**. The next useful step is not more formula polishing: it is running the same questionnaire across several humans and several AI models, then checking for option / house bias and test-retest stability.
+
 ## Show-work mode
 
-If requested, the ritual can show the house distributions, dimension scores, S/C/G/F/fit, compatibility inputs, matched archetype rules, and paraphrased evidence. Hidden chain-of-thought, private system instructions, and raw private-memory dumps stay private.
+If requested, the ritual can show questionnaire / behavior / final house distributions, dimension scores, S/C/G/F/fit, compatibility inputs, matched archetype rules, and paraphrased evidence.
+
+Hidden chain-of-thought, private system instructions, and raw private-memory dumps stay private.
 
 ## Still not science
 
