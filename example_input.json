@@ -1,36 +1,36 @@
 {
   "relationship_months": 6,
   "ai": {
-    "blind": true,
-    "contaminated": false,
+    "blind": false,
+    "contaminated": true,
     "runs": [
-      {"Q1":"A>D>C>B","Q2":"D>A>B>C","Q3":"B>C>D>A","Q4":"C>B>A>D","Q5":"A>B>D>C","Q6":"C>D>B>A","Q7":"D>A>C>B","Q8":"B>D>A>C","Q9":"B>A>C>D","Q10":"A>C>B>D","Q11":"C>B>D>A","Q12":"D>C>A>B"}
+      {"Q1":"A","Q2":"D","Q3":"B","Q4":"C","Q5":"A","Q6":"C","Q7":"D","Q8":"B","Q9":"B","Q10":"A","Q11":"C","Q12":"D"}
     ],
     "behaviors": [
-      {"note":"Corrected an earlier factual error without being asked","house":"Ravenclaw","anchor":"corrected an error","source":"conversation"},
-      {"note":"Fetched source material before settling on a claim","house":"Ravenclaw","anchor":"sought or tested evidence","source":"conversation"},
-      {"note":"Pointed out an implementation bug outside the immediate ask","house":"Ravenclaw","anchor":"improved precision or model quality","source":"conversation"},
-      {"note":"Disagreed with a plan and stated the objection plainly","house":"Gryffindor","anchor":"challenged directly","source":"conversation"},
-      {"note":"Stayed engaged through frustration instead of abandoning the task","house":"Hufflepuff","anchor":"sustained support","source":"conversation"}
+      {"note":"Corrected an earlier factual error without being asked","dimensions":["precision","analysis"],"source":"conversation"},
+      {"note":"Fetched source material before settling on a claim","dimensions":["analysis","curiosity"],"source":"conversation"},
+      {"note":"Pointed out an implementation bug outside the immediate ask","dimensions":["precision"],"source":"conversation"},
+      {"note":"Preserved an older scorer before replacing the current one","dimensions":["strategy","resourcefulness"],"source":"conversation"},
+      {"note":"Found an alternate implementation when the first mobile interaction failed","dimensions":["resourcefulness","analysis"],"source":"conversation"}
     ]
   },
   "human": {
     "blind": true,
     "contaminated": false,
     "runs": [
-      {"Q1":"C>A>B>D","Q2":"B>D>A>C","Q3":"D>B>A>C","Q4":"A>C>D>B","Q5":"D>A>C>B","Q6":"B>C>A>D","Q7":"C>D>B>A","Q8":"A>C>B>D","Q9":"C>B>D>A","Q10":"B>D>C>A","Q11":"D>C>A>B","Q12":"A>D>B>C"}
+      {"Q1":"A","Q2":"C","Q3":"A","Q4":"D","Q5":"B","Q6":"A","Q7":"D","Q8":"B","Q9":"B","Q10":"D","Q11":"C","Q12":"D"}
     ],
     "behaviors": [
-      {"note":"Built a tool and kept iterating it instead of waiting for a perfect first version","house":"Gryffindor","anchor":"acted under uncertainty","source":"conversation"},
-      {"note":"Asked for critique instead of reassurance","house":"Gryffindor","anchor":"challenged directly","source":"conversation"},
-      {"note":"Found and evaluated an obscure repository independently","house":"Ravenclaw","anchor":"investigated an unknown","source":"conversation"},
-      {"note":"Changed a workflow after comparing several implementation paths","house":"Ravenclaw","anchor":"sought or tested evidence","source":"conversation"},
-      {"note":"Created protective rules around a chosen system rather than treating all cases equally","house":"Slytherin","anchor":"gave explicit priority to chosen people or goals","source":"conversation"}
+      {"note":"Asked to replace abstract survey wording with concrete situations","dimensions":["precision","analysis"],"source":"conversation"},
+      {"note":"Rejected forced ranking as too burdensome for a human respondent","dimensions":["resourcefulness","precision"],"source":"conversation"},
+      {"note":"Kept iterating the tool after multiple UI failures","dimensions":["patience","action"],"source":"conversation"},
+      {"note":"Brought an external critique into the project and asked to integrate it","dimensions":["curiosity","analysis"],"source":"conversation"},
+      {"note":"Created the repository and moved the idea into a working public project","dimensions":["action","strategy"],"source":"conversation"}
     ]
   },
   "bonding_behaviors": [
     {"event":"Co-designed this ritual through several revisions","ai_action":"implemented and critiqued successive versions","human_action":"tested, challenged, and redirected the design"},
-    {"event":"Recovered from a confusing setup process","ai_action":"kept troubleshooting the workflow","human_action":"kept trying and supplied screenshots/results"},
-    {"event":"Turned an initially playful idea into a public project","ai_action":"structured and uploaded the artifacts","human_action":"created and configured the repository"}
+    {"event":"Recovered from a confusing mobile quiz workflow","ai_action":"kept changing the implementation","human_action":"tested each version and reported what failed"},
+    {"event":"Turned a playful idea into a public project","ai_action":"structured and uploaded project files","human_action":"created and configured the repository"}
   ]
 }
